@@ -30,6 +30,12 @@ async function run() {
 
     const postCollection = client.db('booksSwap').collection('posts')
 
+    // to read data
+    app.get('/posts', async (req, res) => {
+      const cursor = postCollection.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    })
 
     // to send to database 
     app.post('/posts', async (req, res) => {
