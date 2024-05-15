@@ -37,6 +37,14 @@ async function run() {
       res.send(result)
     })
 
+    // by selecting id for update
+    app.get('/posts/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await postCollection.findOne(query)
+      res.send(result)
+    })
+
     // to send to database 
     app.post('/posts', async (req, res) => {
       const newPost = req.body;
