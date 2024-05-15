@@ -29,6 +29,7 @@ async function run() {
     // await client.connect();
 
     const postCollection = client.db('booksSwap').collection('posts')
+    const myCollection = client.db('booksSwap').collection('read')
 
     // to read data
     app.get('/posts', async (req, res) => {
@@ -38,13 +39,22 @@ async function run() {
     })
 
     // showing only my query
-    app.get('/posts/:email', async (req, res) => {
-      const email = req.params.email;
-      const filter = { email: email };
-      const result = await postCollection.find(filter).toArray()
-      res.send(result)
-    })
 
+    // app.get('/posts/:email', async (req, res) => {
+    //   const email = req.params.email;
+    //   const filter = { email: email };
+    //   const result = await postCollection.find(filter).toArray()
+    //   res.send(result)
+    // })
+
+
+    // recommendation creating
+    app.post('/recommendation', async (req, res) => {
+      const newRecom = req.body;
+      const result = await myCollection.insertOne(newRecom)
+      res.send(result)
+
+    })
 
 
     // by selecting id for update
