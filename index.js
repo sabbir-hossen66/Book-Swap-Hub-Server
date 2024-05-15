@@ -37,6 +37,16 @@ async function run() {
       res.send(result)
     })
 
+    // showing only my query
+    app.get('/posts/:email', async (req, res) => {
+      const email = req.params.email;
+      const filter = { email: email };
+      const result = await postCollection.find(filter).toArray()
+      res.send(result)
+    })
+
+
+
     // by selecting id for update
     app.get('/posts/:id', async (req, res) => {
       const id = req.params.id;
@@ -45,10 +55,27 @@ async function run() {
       res.send(result)
     })
 
+    // to go to update
+    app.put('/posts/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true }
+      const updatedBook = req.body
+      const book = {
+        $set: {
+          productName: updatedBook.productName,
+          brandProduct: updatedBook.brandProduct,
+          title: updatedBook.title,
+          boycot: updatedBook.boycot,
+          productPhoto: updatedBook.productPhoto
+        }
+      }
+      const result = await postCollection.updateOne(filter, book, options);
+      res.send(result)
+    })
     // to send to database 
     app.post('/posts', async (req, res) => {
       const newPost = req.body;
-      console.log(newPost);
       const result = await postCollection.insertOne(newPost);
       res.send(result)
     })
