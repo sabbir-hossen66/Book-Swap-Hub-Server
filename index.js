@@ -48,6 +48,13 @@ async function run() {
     // })
 
 
+    // recommendation read
+    app.get('/recommendation', async (req, res) => {
+      const cursor = myCollection.find();
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     // recommendation creating
     app.post('/recommendation', async (req, res) => {
       const newRecom = req.body;
